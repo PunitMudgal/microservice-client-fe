@@ -32,38 +32,72 @@ function ProductCard({
   categoryName?: string;
 }) {
   const image = product.imageUrl || fallbackImages[index % fallbackImages.length];
-  const startingPrice = [...(product.variants ?? [])]
+  const variants = product.variants ?? [];
+  const startingPrice = [...variants]
     .sort((a, b) => Number(a.price) - Number(b.price))[0]?.price;
+  const variantCount = variants.length;
 
   return (
     <Link
       href={`/products/${product.id}`}
-      className="product-card group rounded-3xl bg-white p-3 shadow-[0_14px_40px_rgba(84,47,16,0.07)] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(84,47,16,0.13)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b85625] focus-visible:ring-offset-4"
+      className="product-card group relative flex flex-col overflow-hidden rounded-3xl bg-white p-3 ring-1 ring-[#eadcc9]/60 shadow-[0_14px_40px_rgba(84,47,16,0.07)] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-2 hover:shadow-[0_24px_56px_rgba(84,47,16,0.16)] hover:ring-[#e7c98e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b85625] focus-visible:ring-offset-4"
     >
+      {/* Hover accent line that sweeps in across the top edge. */}
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-3 top-3 z-10 h-0.5 origin-left scale-x-0 rounded-full bg-[#f4b544] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-x-100"
+      />
       <div className="relative flex aspect-[1.15] items-center justify-center overflow-hidden rounded-2xl bg-[#f8eee1]">
+        {/* Decorative radial glow behind the dish. */}
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(244,181,68,0.18),transparent_62%)] opacity-0 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-100"
+        />
         {/* Catalog image hosts are tenant configurable, so a native image keeps remote URLs flexible. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={image}
           alt={product.name}
-          className="h-full w-full object-contain p-3 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110"
+          loading="lazy"
+          className="relative h-full w-full object-contain p-3 transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110"
         />
         {product.isVeg === true && (
-          <span className="absolute left-3 top-3 rounded-full bg-[#eef5df] px-2 py-1 text-xs font-semibold text-[#527032]">
+          <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-[#eef5df]/90 px-2.5 py-1 text-xs font-semibold text-[#527032] backdrop-blur-sm">
+            <span className="size-2 rounded-full bg-[#527032]" />
             Veg
           </span>
         )}
+        {variantCount > 1 && (
+          <span className="absolute bottom-3 right-3 rounded-full bg-white/90 px-2.5 py-1 text-xs font-semibold text-[#765f4c] shadow-sm backdrop-blur-sm">
+            {variantCount} sizes
+          </span>
+        )}
       </div>
-      <div className="px-2 pb-2 pt-4">
+      <div className="flex flex-1 flex-col px-2 pb-1 pt-4">
         <p className="mb-1 text-xs font-medium uppercase tracking-[0.16em] text-[#ab7951]">
           {categoryName || "Nesta favourite"}
         </p>
-        <h3 className="truncate text-lg font-semibold text-[#302016]">{product.name}</h3>
-        <div className="mt-3 flex items-center justify-between gap-3">
-          <span className="text-sm font-semibold text-[#302016]">
-            From {formatPrice(startingPrice)}
-          </span>
-          <span className="grid size-9 place-items-center rounded-full bg-[#f4b544] text-xl leading-none text-[#382411] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-45">
+        <h3 className="line-clamp-2 text-lg font-semibold leading-snug text-[#302016]">
+          {product.name}
+        </h3>
+        {product.description && (
+          <p className="mt-1.5 line-clamp-2 text-sm leading-relaxed text-[#765f4c]">
+            {product.description}
+          </p>
+        )}
+        <div className="mt-auto flex items-center justify-between gap-3 pt-4">
+          <div className="flex flex-col">
+            <span className="text-[0.7rem] font-medium uppercase tracking-wide text-[#ab7951]">
+              {startingPrice ? "From" : "Price"}
+            </span>
+            <span className="text-base font-bold text-[#302016]">
+              {formatPrice(startingPrice)}
+            </span>
+          </div>
+          <span
+            aria-hidden="true"
+            className="grid size-10 place-items-center rounded-full bg-[#f4b544] text-2xl leading-none text-[#382411] shadow-[0_6px_16px_rgba(244,181,68,0.35)] transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-hover:rotate-90"
+          >
             +
           </span>
         </div>
