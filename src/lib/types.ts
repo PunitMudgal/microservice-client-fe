@@ -51,3 +51,58 @@ export interface User {
   role: "admin" | "staff" | "customer";
   isActive: boolean;
 }
+
+export interface CatalogVariant {
+  id: string;
+  productId: string;
+  label: string;
+  price: string;
+  isDefault: boolean;
+  isActive: boolean;
+  displayOrder: number;
+  deletedAt?: string | null;
+}
+
+export interface CatalogAddOn {
+  id: string;
+  tenantId: string;
+  name: string;
+  price: string;
+  isActive: boolean;
+  deletedAt?: string | null;
+}
+
+export interface CatalogProduct {
+  id: string;
+  tenantId: string;
+  categoryId: string;
+  name: string;
+  description?: string | null;
+  imageUrl?: string | null;
+  isVeg?: boolean | null;
+  isActive: boolean;
+  displayOrder: number;
+  attributes?: Record<string, unknown> | null;
+  variants: CatalogVariant[];
+  addOns?: CatalogAddOn[];
+}
+
+export interface CatalogCategory {
+  id: string;
+  tenantId: string;
+  name: string;
+  slug: string;
+  parentId?: string | null;
+  displayOrder: number;
+  icon?: string | null;
+  isActive: boolean;
+  products?: CatalogProduct[];
+  children?: CatalogCategory[];
+}
+
+export interface ApiEnvelope<T> {
+  success: boolean;
+  message: string;
+  data: T;
+  status: number;
+}

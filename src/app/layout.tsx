@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nesta Foods",
-  description: "Nesta is a food ordering platform for startups and entrepreneurs.",
+  title: "Nesta Foods | Fresh food for every table",
+  description: "Discover freshly made Nesta favourites, thoughtful recipes, and food worth sharing.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

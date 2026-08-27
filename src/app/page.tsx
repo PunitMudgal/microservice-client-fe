@@ -1,7 +1,5 @@
+import StorefrontHome from "@/components/storefront/storefront-home";
+
 export default function Home() {
-  return (
-    <div>
-      <h1>Hello MF</h1>
-    </div>
-  );
+  return <StorefrontHome />;
 }
