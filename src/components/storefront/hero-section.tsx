@@ -62,8 +62,8 @@ export function HeroSection({ sectionRef }: HeroSectionProps) {
       </div>
 
       <div className="hero-art relative mx-auto flex aspect-square w-full max-w-135 items-center justify-center">
-        <div className="absolute inset-[7%] rotate-3 rounded-[30%] bg-[#f4b544]" />
-        <div className="absolute inset-[14%] -rotate-3 rounded-[32%] bg-[#e2552d]" />
+        <div className="absolute inset-[7%] rotate-3 rounded-[30%] bg-[#f7d38f5b]" />
+        <div className="absolute inset-[14%] -rotate-3 rounded-[32%] bg-[#fa8c6e5a]" />
         <span className="absolute left-[2%] top-[14%] z-20 -rotate-6 rounded-2xl bg-white p-3 shadow-[0_14px_32px_rgba(84,47,16,0.14)]">
           <span className="block text-xs font-semibold uppercase tracking-[0.12em] text-[#b85625]">
             Stall special
@@ -82,8 +82,8 @@ export function HeroSection({ sectionRef }: HeroSectionProps) {
           alt=""
           className="absolute bottom-[-2%] right-[-2%] z-20 w-[30%] rotate-12 object-contain drop-shadow-[0_16px_12px_rgba(86,47,14,0.18)]"
         />
-        <span className="absolute bottom-[10%] left-[1%] z-20 rounded-full bg-[#302016] px-4 py-2 text-xs font-semibold text-white shadow-lg">
-          Made after you order
+        <span className="absolute bottom-[10%] left-[1%] z-20 rounded-full bg-[#3a281dc5] px-4 py-2 text-xs font-semibold text-white shadow-lg">
+          Let us COOK 🔥
         </span>
       </div>
     </section>

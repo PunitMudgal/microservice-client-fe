@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: process.env.BACKEND_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -11,7 +11,7 @@ export const apiClient = axios.create({
 
 export function getApiErrorMessage(
   error: unknown,
-  fallback = "Something went wrong. Please try again."
+  fallback = "Something went wrong. Please try again.",
 ) {
   if (axios.isAxiosError<{ message?: string; error?: string }>(error)) {
     return (
@@ -28,5 +28,3 @@ export function getApiErrorMessage(
 
   return fallback;
 }
-
-
