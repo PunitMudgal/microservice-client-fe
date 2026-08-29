@@ -131,11 +131,15 @@
 
 @layer components {
   .category-pill {
-    @apply flex min-w-fit items-center gap-3 rounded-2xl bg-white px-5 py-4 text-sm font-semibold text-[#765f4c] shadow-[0_8px_24px_rgba(84,47,16,0.05)] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:text-[#b85625] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b85625] focus-visible:ring-offset-2;
+    @apply relative flex min-h-24 cursor-pointer flex-col items-start justify-between overflow-hidden rounded-2xl bg-white p-4 text-left text-sm font-semibold text-[#765f4c] shadow-[0_8px_24px_rgba(84,47,16,0.05)] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 hover:bg-[#fee9d5] hover:text-[#b85625] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e2552d] focus-visible:ring-offset-2;
   }
 
   .category-pill.active {
-    @apply bg-[#302016] text-white;
+    @apply bg-[#d46f53] text-white;
+  }
+
+  .category-number {
+    @apply text-xs font-bold tracking-[0.16em] opacity-60;
   }
 
   .filter-chip {
