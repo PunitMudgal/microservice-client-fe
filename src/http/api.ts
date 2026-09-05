@@ -8,8 +8,8 @@ import {
 } from "@/lib/types";
 import { apiClient } from "./client";
 
-const AUTH_SERVICE = "/api/v1/auth";
-const CATALOG_SERVICE = "/api/v1/catalog";
+const AUTH_SERVICE = "/auth/api/v1";
+const CATALOG_SERVICE = "/catalog/api/v1";
 export const NESTA_TENANT_ID = "fbb3649a-5ef9-4c4d-be0d-46aecbdb2061";
 
 export const signup = async (credentials: SignupRequest) => {
