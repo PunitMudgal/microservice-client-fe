@@ -49,29 +49,29 @@ export function SiteFooter() {
               Explore
             </p>
             <ul className="mt-5 space-y-3 text-sm">
-              <li>
-                <a
-                  href="#menu"
+                <li>
+                <Link
+                  href="/#menu"
                   className="text-white/70 transition-colors duration-300 hover:text-[#f4b544]"
                 >
                   Menu
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#story"
+                <Link
+                  href="/orders"
                   className="text-white/70 transition-colors duration-300 hover:text-[#f4b544]"
                 >
-                  Our story
-                </a>
+                  My orders
+                </Link>
               </li>
               <li>
-                <a
-                  href="#contact"
+                <Link
+                  href="/cart"
                   className="text-white/70 transition-colors duration-300 hover:text-[#f4b544]"
                 >
-                  Contact
-                </a>
+                  Bag
+                </Link>
               </li>
             </ul>
           </nav>

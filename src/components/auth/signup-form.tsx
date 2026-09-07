@@ -45,7 +45,7 @@ export function SignupForm({
         description: "You can now login to your account",
         type: "success",
       });
-      router.replace("/");
+      router.replace("/sign-in");
     },
     onError: (error) => {
       toast.add({

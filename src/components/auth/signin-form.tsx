@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 
@@ -18,15 +18,21 @@ import {
   type FieldErrors,
 } from "@/components/auth/auth-field";
 import { AuthSubmitButton } from "@/components/auth/auth-submit-button";
-// import { usePermission } from "@/hooks/use-permission";
 import { useUserStore } from "@/stores/user-store";
+
+function safeNextPath(value: string | null) {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) {
+    return "/";
+  }
+  return value;
+}
 
 export function SigninForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
   const router = useRouter();
-  // const { isAllowed } = usePermission();
+  const searchParams = useSearchParams();
   const { clearUser, setUser } = useUserStore();
 
   const [fieldErrors, setFieldErrors] = useState<
@@ -56,8 +62,7 @@ export function SigninForm({
 
         toast.add({
           title: "Access denied",
-          description:
-            "Only admin and staff accounts can access this dashboard.",
+          description: "We could not load your customer account.",
           type: "error",
         });
         return;
@@ -70,7 +75,7 @@ export function SigninForm({
         description: "Welcome back",
         type: "success",
       });
-      router.replace("/");
+      router.replace(safeNextPath(searchParams.get("next")));
     },
     onError: (error) => {
       toast.add({

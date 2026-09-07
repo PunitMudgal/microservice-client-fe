@@ -4,12 +4,17 @@ import {
   type ApiEnvelope,
   type CatalogCategory,
   type CatalogProduct,
+  type CreateCustomerOrder,
+  type ListMyOrdersQuery,
+  type Order,
+  type OrderListPage,
   type User,
 } from "@/lib/types";
 import { apiClient } from "./client";
 
 const AUTH_SERVICE = "/auth/api/v1";
 const CATALOG_SERVICE = "/catalog/api/v1";
+const ORDER_SERVICE = "/order/api/v1";
 export const NESTA_TENANT_ID = "fbb3649a-5ef9-4c4d-be0d-46aecbdb2061";
 
 export const signup = async (credentials: SignupRequest) => {
@@ -51,6 +56,44 @@ export const getPublicProduct = async (
 ): Promise<CatalogProduct> => {
   const { data } = await apiClient.get<ApiEnvelope<CatalogProduct>>(
     `${CATALOG_SERVICE}/${tenantId}/products/${productId}`,
+  );
+  return data.data;
+};
+
+export const listMyOrders = async (
+  query: ListMyOrdersQuery = {},
+): Promise<OrderListPage> => {
+  const { data } = await apiClient.get<ApiEnvelope<OrderListPage>>(
+    `${ORDER_SERVICE}/orders`,
+    { params: query },
+  );
+  return data.data;
+};
+
+export const getMyOrder = async (orderId: string): Promise<Order> => {
+  const { data } = await apiClient.get<ApiEnvelope<Order>>(
+    `${ORDER_SERVICE}/orders/${orderId}`,
+  );
+  return data.data;
+};
+
+export const placeMyOrder = async (
+  payload: CreateCustomerOrder,
+): Promise<Order> => {
+  const { data } = await apiClient.post<ApiEnvelope<Order>>(
+    `${ORDER_SERVICE}/orders`,
+    payload,
+  );
+  return data.data;
+};
+
+export const cancelMyOrder = async (
+  orderId: string,
+  cancelReason?: string,
+): Promise<Order> => {
+  const { data } = await apiClient.patch<ApiEnvelope<Order>>(
+    `${ORDER_SERVICE}/orders/${orderId}/cancel`,
+    cancelReason ? { cancelReason } : {},
   );
   return data.data;
 };
