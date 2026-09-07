@@ -22,14 +22,14 @@ export const SignupSchema = z
   });
 
 export type SignupSchemaType = z.infer<typeof SignupSchema>;
-export type SignupRequest = Omit<SignupSchemaType, "confirmPassword">;
+export type SignupRequest = Omit<SignupSchemaType, "confirmPassword"> & { tenantId: string };
 
 export function toSignupRequest({
   firstName,
   lastName,
   email,
   password,
-}: SignupSchemaType): SignupRequest {
+}: SignupSchemaType): Omit<SignupRequest, "tenantId"> {
   return { firstName, lastName, email, password };
 }
 

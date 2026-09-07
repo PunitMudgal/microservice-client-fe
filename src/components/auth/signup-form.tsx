@@ -12,7 +12,7 @@ import {
   toSignupRequest,
   type SignupSchemaType,
 } from "@/lib/types";
-import { signup } from "@/http/api";
+import { signup, NESTA_TENANT_ID } from "@/http/api";
 import { getApiErrorMessage } from "@/http/client";
 import { toast } from "@/components/ui/toast";
 import {
@@ -38,7 +38,7 @@ export function SignupForm({
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["signup"],
-    mutationFn: (values: SignupSchemaType) => signup(toSignupRequest(values)),
+    mutationFn: (values: SignupSchemaType) => signup({ ...toSignupRequest(values), tenantId: NESTA_TENANT_ID }),
     onSuccess: () => {
       toast.add({
         title: "Account created successfully",
