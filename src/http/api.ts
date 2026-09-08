@@ -10,6 +10,12 @@ import {
   type OrderListPage,
   type User,
 } from "@/lib/types";
+import type {
+  Address,
+  CreateAddressInput,
+  UpdateAddressInput,
+  UpdateProfileInput,
+} from "@/lib/profile";
 import { apiClient } from "./client";
 
 const AUTH_SERVICE = "/auth/api/v1";
@@ -39,6 +45,46 @@ export const getSelf = async (): Promise<User> => {
     `${AUTH_SERVICE}/user/self`,
   );
   return data.data;
+};
+
+export const updateMyProfile = async (
+  userId: string,
+  payload: UpdateProfileInput,
+): Promise<User> => {
+  const { data } = await apiClient.patch<{
+    data: { user: User };
+  }>(`${AUTH_SERVICE}/user/${userId}`, payload);
+  return data.data.user;
+};
+
+export const listMyAddresses = async (): Promise<Address[]> => {
+  const { data } = await apiClient.get<{
+    data: { addresses: Address[] };
+  }>(`${AUTH_SERVICE}/address`, { params: { isActive: true } });
+  return data.data.addresses;
+};
+
+export const createMyAddress = async (
+  payload: CreateAddressInput,
+): Promise<Address> => {
+  const { data } = await apiClient.post<{
+    data: { address: Address };
+  }>(`${AUTH_SERVICE}/address`, payload);
+  return data.data.address;
+};
+
+export const updateMyAddress = async (
+  addressId: string,
+  payload: UpdateAddressInput,
+): Promise<Address> => {
+  const { data } = await apiClient.patch<{
+    data: { address: Address };
+  }>(`${AUTH_SERVICE}/address/${addressId}`, payload);
+  return data.data.address;
+};
+
+export const deleteMyAddress = async (addressId: string): Promise<void> => {
+  await apiClient.delete(`${AUTH_SERVICE}/address/${addressId}`);
 };
 
 export const getPublicMenu = async (

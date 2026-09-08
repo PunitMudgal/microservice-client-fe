@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { memo, useCallback, useMemo, useState } from "react";
-import { logout } from "@/http/api";
+import { usePathname } from "next/navigation";
+import { memo, useMemo, useState } from "react";
 import { cartItemCount } from "@/lib/cart";
 import { cn } from "@/lib/utils";
 import { useCartHydrated } from "@/hooks/use-cart-hydrated";
@@ -112,37 +111,48 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
-function AuthButton() {
-  const router = useRouter();
+function AccountButton() {
   const user = useUserStore((s) => s.user);
-  const clearUser = useUserStore((s) => s.clearUser);
-
-  const handleSignOut = useCallback(async () => {
-    try {
-      await logout();
-    } catch {
-      // Local sign out still proceeds if revoke fails.
-    }
-    clearUser();
-    router.replace("/");
-  }, [clearUser, router]);
 
   if (user) {
     return (
-      <button
-        type="button"
-        onClick={() => void handleSignOut()}
-        title={user.email ? `Signed in as ${user.email}` : "Sign out"}
-        className={cn(pillButton, "cursor-pointer bg-[#302016] text-white hover:bg-[#4a3220]")}
+      <Link
+        href="/profile"
+        title={`Profile for ${user.firstName}`}
+        className={cn(
+          pillButton,
+          "gap-2 bg-[#302016] text-white hover:bg-[#4a3220]",
+        )}
       >
-        Sign out
-      </button>
+        <UserIcon />
+        Profile
+      </Link>
     );
   }
   return (
     <Link href="/sign-in" className={cn(pillButton, "bg-[#302016] text-white hover:bg-[#4a3220]")}>
       Sign in
     </Link>
+  );
+}
+
+function UserIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M4.5 20c.8-4 3.3-6 7.5-6s6.7 2 7.5 6"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }
 
@@ -180,7 +190,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <CartButton count={count} />
             <div className="hidden sm:block">
-              <AuthButton />
+              <AccountButton />
             </div>
             <button
               type="button"
@@ -207,7 +217,7 @@ export function SiteHeader() {
               </Link>
             ))}
             <div className="border-t border-[#eadcc9] p-2 sm:hidden">
-              <AuthButton />
+              <AccountButton />
             </div>
           </div>
         )}
