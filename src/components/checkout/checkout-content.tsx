@@ -19,10 +19,12 @@ import { useUserStore } from "@/stores/user-store";
 import { CheckoutSteps } from "@/components/checkout/checkout-steps";
 import { OrderTypePicker } from "@/components/checkout/order-type-picker";
 import { CheckoutTextField } from "@/components/checkout/checkout-text-field";
-import { DeliveryAddressFields } from "@/components/checkout/delivery-address-fields";
+import { CheckoutAddressSelector } from "@/components/checkout/checkout-address-selector";
 import { KitchenNotesField } from "@/components/checkout/kitchen-notes-field";
 import { CheckoutSummary } from "@/components/checkout/checkout-summary";
 import { CheckoutEmptyState } from "@/components/checkout/checkout-empty-state";
+
+const CHECKOUT_FORM_ID = "checkout-order-form";
 
 export function CheckoutContent() {
   const router = useRouter();
@@ -32,11 +34,25 @@ export function CheckoutContent() {
   const estimate = cartEstimate(lines);
   const hydrated = useCartHydrated();
   const [orderType, setOrderType] = useState<OrderType>("takeaway");
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
+    null,
+  );
   const [fieldErrors, setFieldErrors] = useState<
     Partial<Record<keyof CheckoutSchemaType, string>>
   >({});
 
   const missingTenant = !user?.tenantId;
+
+  function handleAddressSelect(addressId: string) {
+    setSelectedAddressId(addressId);
+    setFieldErrors((current) => ({
+      ...current,
+      line1: undefined,
+      city: undefined,
+      pincode: undefined,
+      phone: undefined,
+    }));
+  }
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["place-order"],
@@ -136,9 +152,19 @@ export function CheckoutContent() {
         )}
 
         <div className="mt-8 grid items-start gap-6 lg:grid-cols-[1.25fr_0.85fr]">
-          <form onSubmit={handleSubmit} noValidate className="space-y-5">
+          <div className="flex flex-col gap-5">
+            <form
+              id={CHECKOUT_FORM_ID}
+              onSubmit={handleSubmit}
+              noValidate
+              className="hidden"
+            />
             <div className="rounded-[1.75rem] bg-white p-5 ring-1 ring-[#eadcc9] sm:p-6">
-              <OrderTypePicker value={orderType} onChange={setOrderType} />
+              <OrderTypePicker
+                formId={CHECKOUT_FORM_ID}
+                value={orderType}
+                onChange={setOrderType}
+              />
             </div>
 
             {orderType === "dine_in" && (
@@ -146,6 +172,7 @@ export function CheckoutContent() {
                 <h2 className="font-semibold text-[#302016]">Table details</h2>
                 <div className="mt-4 max-w-xs">
                   <CheckoutTextField
+                    formId={CHECKOUT_FORM_ID}
                     label="Table number"
                     name="tableNumber"
                     error={fieldErrors.tableNumber}
@@ -157,19 +184,28 @@ export function CheckoutContent() {
             )}
 
             {orderType === "delivery" && (
-              <DeliveryAddressFields errors={fieldErrors} />
+              <CheckoutAddressSelector
+                formId={CHECKOUT_FORM_ID}
+                selectedAddressId={selectedAddressId}
+                errors={fieldErrors}
+                onSelect={handleAddressSelect}
+              />
             )}
 
-            <KitchenNotesField error={fieldErrors.notes} />
+            <KitchenNotesField
+              formId={CHECKOUT_FORM_ID}
+              error={fieldErrors.notes}
+            />
 
             <button
+              form={CHECKOUT_FORM_ID}
               type="submit"
               disabled={isPending || missingTenant}
               className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#e2552d] px-6 text-base font-semibold text-white transition hover:bg-[#c94824] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-64"
             >
               {isPending ? "Placing order..." : `Place order · ${lines.length} items`}
             </button>
-          </form>
+          </div>
 
           <CheckoutSummary lines={lines} estimate={estimate} />
         </div>

@@ -26,7 +26,7 @@ import {
 interface AddressFormProps {
   address?: Address;
   onCancel: () => void;
-  onSaved: () => void;
+  onSaved: (address: Address) => void;
 }
 
 const labelNames: Record<AddressLabel, string> = {
@@ -51,13 +51,13 @@ export function AddressForm({
       address
         ? updateMyAddress(address.id, values)
         : createMyAddress(values),
-    onSuccess: () => {
+    onSuccess: (savedAddress) => {
       toast.add({
         title: address ? "Address updated" : "Address added",
         description: "Your address book is up to date.",
         type: "success",
       });
-      onSaved();
+      onSaved(savedAddress);
     },
     onError: (error) => {
       toast.add({

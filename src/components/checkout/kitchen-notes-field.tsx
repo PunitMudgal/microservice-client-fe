@@ -1,8 +1,12 @@
 interface KitchenNotesFieldProps {
+  formId?: string;
   error?: string;
 }
 
-export function KitchenNotesField({ error }: KitchenNotesFieldProps) {
+export function KitchenNotesField({
+  formId,
+  error,
+}: KitchenNotesFieldProps) {
   return (
     <div className="rounded-[1.75rem] bg-white p-5 ring-1 ring-[#eadcc9] sm:p-6">
       <label className="block">
@@ -10,6 +14,7 @@ export function KitchenNotesField({ error }: KitchenNotesFieldProps) {
           Kitchen notes <span className="font-normal text-[#765f4c]">(optional)</span>
         </span>
         <textarea
+          form={formId}
           name="notes"
           rows={3}
           maxLength={1000}

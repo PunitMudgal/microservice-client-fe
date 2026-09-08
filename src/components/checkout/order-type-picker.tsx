@@ -9,11 +9,16 @@ const options: { value: OrderType; label: string; hint: string; icon: string }[]
 ];
 
 interface OrderTypePickerProps {
+  formId?: string;
   value: OrderType;
   onChange: (next: OrderType) => void;
 }
 
-export function OrderTypePicker({ value, onChange }: OrderTypePickerProps) {
+export function OrderTypePicker({
+  formId,
+  value,
+  onChange,
+}: OrderTypePickerProps) {
   return (
     <fieldset>
       <legend className="mb-3 text-sm font-semibold text-[#302016]">
@@ -32,6 +37,7 @@ export function OrderTypePicker({ value, onChange }: OrderTypePickerProps) {
               }`}
             >
               <input
+                form={formId}
                 type="radio"
                 name="orderType"
                 value={option.value}
