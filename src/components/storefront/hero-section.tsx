@@ -12,7 +12,7 @@ export function HeroSection() {
               Fresh from the grill
             </p>
             <p className="rounded-full border border-[#eadcc9] bg-white px-3 py-1.5 text-xs font-semibold text-[#765f4c]">
-              Open daily · 11 AM – 11 PM
+              Open daily · 2 PM – 2 AM
             </p>
           </div>
 
@@ -49,7 +49,9 @@ export function HeroSection() {
             ].map(([value, label]) => (
               <div key={label} className="pr-6 pl-6 first:pl-0 last:pr-0">
                 <dt className="sr-only">{label}</dt>
-                <dd className="text-xl font-bold tabular-nums text-[#302016]">{value}</dd>
+                <dd className="text-xl font-bold tabular-nums text-[#302016]">
+                  {value}
+                </dd>
                 <dd className="text-xs font-medium text-[#ab957f]">{label}</dd>
               </div>
             ))}
@@ -57,8 +59,14 @@ export function HeroSection() {
         </div>
 
         <div className="relative mx-auto w-full max-w-[540px]">
-          <div aria-hidden="true" className="absolute inset-[6%] rounded-[3rem] bg-[#f7d38f]/40" />
-          <div aria-hidden="true" className="absolute inset-[12%] rounded-[3rem] bg-[#fa8c6e]/30" />
+          <div
+            aria-hidden="true"
+            className="absolute inset-[6%] rounded-[3rem] bg-[#f7d38f]/40"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-[12%] rounded-[3rem] bg-[#fa8c6e]/30"
+          />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/pizza.png"

@@ -110,7 +110,7 @@ export function MenuSection({
             </button>
           </div>
 
-          <div className="mb-7 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="scrollbar-none mb-7 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <FilterChip label="All" active={activeCategory === "all"} onClick={() => onCategoryChange("all")} />
             {categories.map((category) => (
               <FilterChip
@@ -121,34 +121,34 @@ export function MenuSection({
               />
             ))}
           </div>
-
-          {products.length > 0 ? (
-            <ProductGrid>
-              {products.map((product, index) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  index={index}
-                  categoryName={getCategoryName(product.categoryId)}
-                />
-              ))}
-            </ProductGrid>
-          ) : (
-            <StatusPanel
-              title="Nothing matched that craving."
-              message="Try a different search, or browse every category."
-              action={
-                <button
-                  type="button"
-                  onClick={onReset}
-                  className="rounded-full bg-[#302016] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#4a3220] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e2552d] focus-visible:ring-offset-2"
-                >
-                  Clear filters
-                </button>
-              }
-            />
-          )}
         </Reveal>
+
+        {products.length > 0 ? (
+          <ProductGrid>
+            {products.map((product, index) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                index={index}
+                categoryName={getCategoryName(product.categoryId)}
+              />
+            ))}
+          </ProductGrid>
+        ) : (
+          <StatusPanel
+            title="Nothing matched that craving."
+            message="Try a different search, or browse every category."
+            action={
+              <button
+                type="button"
+                onClick={onReset}
+                className="rounded-full bg-[#302016] px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#4a3220] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e2552d] focus-visible:ring-offset-2"
+              >
+                Clear filters
+              </button>
+            }
+          />
+        )}
       </Container>
     </section>
   );
