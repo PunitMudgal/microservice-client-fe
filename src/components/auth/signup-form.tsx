@@ -15,11 +15,7 @@ import {
 import { signup, NESTA_TENANT_ID } from "@/http/api";
 import { getApiErrorMessage } from "@/http/client";
 import { toast } from "@/components/ui/toast";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-} from "@/components/ui/field";
+import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import {
   AuthField,
   getFieldError,
@@ -38,7 +34,8 @@ export function SignupForm({
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["signup"],
-    mutationFn: (values: SignupSchemaType) => signup({ ...toSignupRequest(values), tenantId: NESTA_TENANT_ID }),
+    mutationFn: (values: SignupSchemaType) =>
+      signup({ ...toSignupRequest(values), tenantId: NESTA_TENANT_ID }),
     onSuccess: () => {
       toast.add({
         title: "Account created successfully",
@@ -60,7 +57,7 @@ export function SignupForm({
     event.preventDefault();
 
     const parsed = SignupSchema.safeParse(
-      Object.fromEntries(new FormData(event.currentTarget))
+      Object.fromEntries(new FormData(event.currentTarget)),
     );
 
     if (!parsed.success) {
@@ -134,7 +131,10 @@ export function SignupForm({
           description="Please confirm your password."
         />
         <Field>
-          <AuthSubmitButton isPending={isPending} pendingLabel="Creating account...">
+          <AuthSubmitButton
+            isPending={isPending}
+            pendingLabel="Creating account..."
+          >
             Create Account
           </AuthSubmitButton>
         </Field>

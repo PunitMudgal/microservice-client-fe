@@ -4,6 +4,7 @@ import {
   ArrowUp01Icon,
   Mail01Icon,
 } from "@hugeicons/core-free-icons";
+import { BrandLogo } from "./brand-logo";
 
 export function SiteFooter() {
   return (
@@ -20,12 +21,10 @@ export function SiteFooter() {
           <div>
             <Link
               href="/"
-              className="flex w-fit items-center gap-2 text-2xl font-bold tracking-tighter text-white"
+              aria-label="Nesta Foods home"
+              className="inline-flex rounded-2xl bg-white px-3 py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f4b544] focus-visible:ring-offset-2 focus-visible:ring-offset-[#302016]"
             >
-              <span className="grid size-9 place-items-center rounded-full bg-[#f4b544] text-sm">
-                N
-              </span>
-              nesta
+              <BrandLogo className="h-8 sm:h-9" />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-6 text-white/60">
               Good food, better company. Freshly made favourites, generous
