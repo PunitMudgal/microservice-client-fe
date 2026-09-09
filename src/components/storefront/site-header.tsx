@@ -67,10 +67,11 @@ const CartButton = memo(function CartButton({ count }: { count: number }) {
     <Link
       href="/cart"
       aria-label={count > 0 ? `Bag, ${count} items` : "Bag, empty"}
-      className={cn(pillButton, "relative bg-[#f4b544] text-[#382411] hover:bg-[#f0a92e]")}
+      className={cn(
+        "relative grid size-10 place-items-center rounded-full bg-[#f4b544] text-[#382411] transition-colors hover:bg-[#f0a92e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e2552d] focus-visible:ring-offset-2 active:scale-[0.98]",
+      )}
     >
       <BagIcon />
-      <span>Bag</span>
       {count > 0 && (
         <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-[#e2552d] px-1 text-[11px] font-bold tabular-nums text-white">
           {count > 99 ? "99+" : count}
@@ -118,14 +119,12 @@ function AccountButton() {
     return (
       <Link
         href="/profile"
-        title={`Profile for ${user.firstName}`}
+        aria-label={`Profile for ${user.firstName}`}
         className={cn(
-          pillButton,
-          "gap-2 bg-[#302016] text-white hover:bg-[#4a3220]",
+          "grid size-10 place-items-center rounded-full bg-[#302016] text-white transition-colors hover:bg-[#4a3220] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e2552d] focus-visible:ring-offset-2 active:scale-[0.98]",
         )}
       >
         <UserIcon />
-        Profile
       </Link>
     );
   }
