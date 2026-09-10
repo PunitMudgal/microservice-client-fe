@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { memo, useMemo, useState } from "react";
+import { memo, useId, useMemo, useState, type ReactNode } from "react";
 import { cartItemCount } from "@/lib/cart";
 import { cn } from "@/lib/utils";
 import { useCartHydrated } from "@/hooks/use-cart-hydrated";
@@ -62,14 +62,51 @@ const HeaderNavLink = memo(function HeaderNavLink({
   );
 });
 
+function IconActionLink({
+  href,
+  label,
+  tooltip,
+  className,
+  children,
+}: {
+  href: string;
+  label: string;
+  tooltip: string;
+  className: string;
+  children: ReactNode;
+}) {
+  const id = useId();
+  return (
+    <span className="group relative inline-flex">
+      <Link
+        href={href}
+        aria-label={label}
+        aria-describedby={id}
+        className={cn(
+          "grid size-10 place-items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e2552d] focus-visible:ring-offset-2 active:scale-[0.98]",
+          className,
+        )}
+      >
+        {children}
+      </Link>
+      <span
+        id={id}
+        role="tooltip"
+        className="pointer-events-none absolute -bottom-9 left-1/2 z-50 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#302016] px-2 py-1 text-xs font-semibold text-white opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100"
+      >
+        {tooltip}
+      </span>
+    </span>
+  );
+}
+
 const CartButton = memo(function CartButton({ count }: { count: number }) {
   return (
-    <Link
+    <IconActionLink
       href="/cart"
-      aria-label={count > 0 ? `Bag, ${count} items` : "Bag, empty"}
-      className={cn(
-        "relative grid size-10 place-items-center rounded-full bg-[#f4b544] text-[#382411] transition-colors hover:bg-[#f0a92e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e2552d] focus-visible:ring-offset-2 active:scale-[0.98]",
-      )}
+      label={count > 0 ? `Bag, ${count} items` : "Bag, empty"}
+      tooltip={count > 0 ? `Bag · ${count} items` : "Bag"}
+      className="relative bg-[#f4b544] text-[#382411] hover:bg-[#f0a92e]"
     >
       <BagIcon />
       {count > 0 && (
@@ -77,7 +114,7 @@ const CartButton = memo(function CartButton({ count }: { count: number }) {
           {count > 99 ? "99+" : count}
         </span>
       )}
-    </Link>
+    </IconActionLink>
   );
 });
 
@@ -117,15 +154,14 @@ function AccountButton() {
 
   if (user) {
     return (
-      <Link
+      <IconActionLink
         href="/profile"
-        aria-label={`Profile for ${user.firstName}`}
-        className={cn(
-          "grid size-10 place-items-center rounded-full bg-[#302016] text-white transition-colors hover:bg-[#4a3220] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e2552d] focus-visible:ring-offset-2 active:scale-[0.98]",
-        )}
+        label={`Profile for ${user.firstName}`}
+        tooltip="Profile"
+        className="bg-[#302016] text-white hover:bg-[#4a3220]"
       >
         <UserIcon />
-      </Link>
+      </IconActionLink>
     );
   }
   return (
