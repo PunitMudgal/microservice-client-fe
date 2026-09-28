@@ -153,14 +153,19 @@ function AccountButton() {
   const user = useUserStore((s) => s.user);
 
   if (user) {
+    const initials =
+      `${user.firstName[0] ?? ""}${user.lastName?.[0] ?? ""}`.toUpperCase() ||
+      "N";
     return (
       <IconActionLink
         href="/profile"
         label={`Profile for ${user.firstName}`}
         tooltip="Profile"
-        className="bg-[#302016] text-white hover:bg-[#4a3220]"
+        className="bg-[#302016] hover:bg-[#4a3220]"
       >
-        <UserIcon />
+        <span className="grid size-6 place-items-center rounded-full bg-[#f4b544] text-[11px] font-bold text-[#302016]">
+          {initials}
+        </span>
       </IconActionLink>
     );
   }
@@ -168,26 +173,6 @@ function AccountButton() {
     <Link href="/sign-in" className={cn(pillButton, "bg-[#302016] text-white hover:bg-[#4a3220]")}>
       Sign in
     </Link>
-  );
-}
-
-function UserIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="8" r="4" stroke="currentColor" strokeWidth="2" />
-      <path
-        d="M4.5 20c.8-4 3.3-6 7.5-6s6.7 2 7.5 6"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }
 
