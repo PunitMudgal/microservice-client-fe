@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/components/query-provider";
 import { SessionProvider } from "@/components/auth/session-provider";
 import { Toaster } from "@/components/ui/toast";
+import { Chat } from "@/components/chat/chat";
 
 const figtree = Figtree({subsets:['latin'],variable:'--font-sans'});
 
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <QueryProvider>
           <SessionProvider>
             {children}
+            <Chat />
             <Toaster />
           </SessionProvider>
         </QueryProvider>
